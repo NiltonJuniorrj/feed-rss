@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Painel Marinha</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #0a192f, #020c1b);
+  color: white;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* LAYOUT */
+.container {
+  display: flex;
+  flex: 1;
+}
+
+/* LEFT */
+.left {
+  width: 20%;
+  background: rgba(17, 34, 64, 0.9);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* CARDS */
+.card {
+  background: linear-gradient(135deg, rgba(10, 25, 47, 0.9), rgba(17, 34, 64, 0.9));
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+.card:nth-child(1) {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  border-color: #60a5fa;
+}
+
+.card:nth-child(2) {
+  background: linear-gradient(135deg, #166534, #22c55e);
+  border-color: #4ade80;
+}
+
+.card:nth-child(3) {
+  background: linear-gradient(135deg, #9a3412, #f97316);
+  border-color: #fb923c;
+}
+
+.icon {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.title {
+  font-size: 13px;
+  opacity: 0.8;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.value {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+}
+
+/* RIGHT */
+.right-wrapper {
+  width: 80%;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  position: relative;
+}
+
+/* FEEDS */
+.feed {
+  width: 100%;
+  transition: all 0.6s ease;
+  background: rgba(10, 25, 47, 0.7);
+  border-radius: 15px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+}
+
+/* FULL MODE */
+.feed.full {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  z-index: 2;
+}
+
+/* HIDDEN */
+.feed.hidden {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+/* TITLE */
+.feed-title {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.news-card {
+  display: flex;
+  gap: 18px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  overflow: hidden;
+  min-height: 100%;
+}
+
+.news-image {
+  width: 70%;
+  min-width: 320px;
+  max-width: 800px;
+  object-fit: contain;
+  background: #071020;
+}
+
+.news-content {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  flex: 1;
+  text-align: justify;
+}
+
+.news-headline {
+  font-size: 1.55rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+  text-align: left;
+  color: #e0f0ff;
+}
+
+.news-headline a {
+  color: #e0f0ff;
+  text-decoration: none;
+}
+
+.news-headline a:hover {
+  text-decoration: underline;
+}
+
+.news-subtitle {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: white;
+}
+
+.news-empty {
+  padding: 30px;
+  color: #f0f0f0;
+  opacity: 0.9;
+}
+
+.ticker {
+  min-height: 55px;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  background: #000;
+  border-top: 3px solid #106dad;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  overflow: hidden;
+}
+
+.ticker-label {
+  background: #106dad;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1rem;
+  clip-path: polygon(0 0, 85% 0, 100% 100%, 0 100%);
+  min-width: 120px;
+}
+
+.ticker-slider {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+}
+
+.ticker-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: slideLeft 240s linear infinite;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  padding: 10px 0;
+}
+
+@keyframes slideLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* IFRAME */
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LEFT -->
+  <div class="left">
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-clock"></i></div>
+      <div class="title">Hora (Brasília)</div>
+      <div class="value" id="clock"></div>
+    </div>
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-dollar-sign"></i></div>
+      <div class="title">USD → BRL</div>
+      <div class="value" id="dolar"></div>
+    </div>
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-cloud-sun"></i></div>
+      <div class="title">Tempo</div>
+      <div class="value" id="weather"></div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right-wrapper">
+
+    <div class="feed" id="newsFeed">
+      <div class="feed-title">⚓ Agência Marinha</div>
+      <div class="news-card" id="newsCard">
+        <img class="news-image" id="newsImage" alt="Notícia da Agência Marinha" />
+        <div class="news-content">
+          <div class="news-headline" id="newsHeadline">Carregando notícias...</div>
+          <div class="news-subtitle" id="newsSubtitle">Aguarde enquanto buscamos as matérias mais recentes e seus resumos.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-label">Notícias</div>
+  <div class="ticker-slider">
+    <div class="ticker-content" id="tickerContent">Carregando títulos...</div>
+  </div>
+</div>
+
+<script>
+// CLOCK
+function updateClock() {
+  document.getElementById('clock').innerText =
+    new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// DOLLAR
+async function getDollar() {
+  try {
+    const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL");
+    const data = await res.json();
+    document.getElementById('dolar').innerText =
+      "R$ " + parseFloat(data.USDBRL.bid).toFixed(2);
+  } catch {
+    document.getElementById('dolar').innerText = "Erro";
+  }
+}
+setInterval(getDollar, 60000);
+getDollar();
+
+// WEATHER
+async function getWeather() {
+  try {
+    const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=-15.78&longitude=-47.93&current_weather=true");
+    const data = await res.json();
+    document.getElementById('weather').innerText =
+      data.current_weather.temperature + "°C";
+  } catch {
+    document.getElementById('weather').innerText = "Erro";
+  }
+}
+setInterval(getWeather, 600000);
+getWeather();
+
+// NEWS WIDGET
+const newsCard = document.getElementById('newsCard');
+const newsImage = document.getElementById('newsImage');
+const newsHeadline = document.getElementById('newsHeadline');
+const newsSubtitle = document.getElementById('newsSubtitle');
+const tickerContent = document.getElementById('tickerContent');
+let newsItems = [];
+let newsIndex = 0;
+let newsInterval;
+
+function renderNewsItem(index) {
+  const item = newsItems[index];
+  if (!item) {
+    newsHeadline.innerText = 'Nenhuma notícia encontrada.';
+    newsSubtitle.innerText = 'Verifique se a página de notícias está disponível.';
+    newsImage.src = '';
+    newsImage.alt = 'Sem imagem';
+    return;
+  }
+
+  newsImage.src = item.image;
+  newsImage.alt = `Imagem da notícia: ${item.title}`;
+  newsHeadline.innerHTML = `<a href="${item.href}" target="_blank" rel="noopener noreferrer">${item.title}</a>`;
+  newsSubtitle.innerText = item.summary || item.subtitle;
+}
+
+function startNewsRotation() {
+  if (newsInterval) {
+    clearInterval(newsInterval);
+  }
+
+  if (newsItems.length <= 1) {
+    return;
+  }
+
+  newsInterval = setInterval(() => {
+    newsIndex = (newsIndex + 1) % newsItems.length;
+    renderNewsItem(newsIndex);
+  }, 15000);
+}
+
+function updateTicker() {
+  if (!newsItems.length) {
+    tickerContent.innerText = 'Sem títulos disponíveis.';
+    return;
+  }
+
+  const titles = newsItems.slice(0, 10).map(item => item.title);
+  const repeatedTitles = [...titles, ...titles, ...titles, ...titles, ...titles, ...titles]; // Sextuplica para mais densidade
+  tickerContent.innerText = repeatedTitles.join(' - ');
+}
+
+async function loadNewsSummary(item) {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+    const response = await fetch(item.href, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    const html = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const body = doc.querySelector('article') || doc.querySelector('.field--name-body') || doc.body;
+    const text = body.textContent.replace(/\s+/g, ' ').trim();
+    item.summary = text.length > 500 ? text.substring(0, 500) + '...' : text;
+  } catch (error) {
+    console.log('Erro ao carregar resumo:', error.message);
+    item.summary = item.subtitle; // fallback
+  }
+}
+
+async function loadMarinhaNews() {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+    const response = await fetch('https://www.agencia.marinha.mil.br/todas-as-materias', { signal: controller.signal });
+    clearTimeout(timeoutId);
+    const html = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const articles = Array.from(doc.querySelectorAll('article.materia'));
+
+    newsItems = articles.map(article => {
+      const img = article.querySelector('img.img-fluid');
+      const titleLink = article.querySelector('h1 a.titulo');
+      const subtitle = article.querySelector('h2.subtitulo');
+      if (!img || !titleLink || !subtitle) {
+        return null;
+      }
+      const src = img.getAttribute('src') || '';
+      const href = titleLink.getAttribute('href') || '#';
+      return {
+        image: src.startsWith('http') ? src : `https://www.agencia.marinha.mil.br${src}`,
+        title: titleLink.textContent.trim(),
+        subtitle: subtitle.textContent.trim(),
+        href: href.startsWith('http') ? href : `https://www.agencia.marinha.mil.br${href}`,
+        summary: subtitle.textContent.trim() // fallback
+      };
+    }).filter(Boolean);
+
+    if (!newsItems.length) {
+      throw new Error('Nenhuma matéria válida foi encontrada.');
+    }
+
+    // Atualizar ticker com títulos disponíveis
+    updateTicker();
+
+    // Carregar resumos das primeiras 10 notícias (não bloquear se falhar)
+    const summaryPromises = newsItems.slice(0, 10).map(loadNewsSummary);
+    Promise.all(summaryPromises).then(() => {
+      // Re-renderizar a notícia atual com resumo se disponível
+      renderNewsItem(newsIndex);
+    }).catch(() => {
+      // Ignorar erros nos resumos
+    });
+
+    newsIndex = 0;
+    renderNewsItem(newsIndex);
+    startNewsRotation();
+  } catch (error) {
+    console.log('Erro ao carregar notícias:', error.message);
+    newsHeadline.innerText = 'Erro ao carregar notícias';
+    newsSubtitle.innerText = error.message || 'Recarregue a página para tentar novamente.';
+    newsImage.src = '';
+    newsImage.alt = 'Sem imagem';
+    tickerContent.innerText = 'Erro ao carregar títulos';
+  }
+}
+
+loadMarinhaNews();
+</script>
+
+</body>
+</html>
