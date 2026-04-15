@@ -26,66 +26,93 @@ body {
 
 /* LEFT */
 .left {
-  width: 20%;
+  width: 18%;
   background: rgba(17, 34, 64, 0.9);
-  padding: 20px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
+  overflow-y: auto;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.logo-container img {
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
 }
 
 /* CARDS */
 .card {
   background: linear-gradient(135deg, rgba(10, 25, 47, 0.9), rgba(17, 34, 64, 0.9));
-  padding: 20px;
-  border-radius: 15px;
+  padding: 10px 12px;
+  border-radius: 10px;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-  border: 2px solid transparent;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
 }
 
-.card:nth-child(1) {
+.card-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.card:nth-child(2) {
   background: linear-gradient(135deg, #1e3a8a, #3b82f6);
   border-color: #60a5fa;
 }
 
-.card:nth-child(2) {
+.card:nth-child(3) {
   background: linear-gradient(135deg, #166534, #22c55e);
   border-color: #4ade80;
 }
 
-.card:nth-child(3) {
+.card:nth-child(4) {
   background: linear-gradient(135deg, #9a3412, #f97316);
   border-color: #fb923c;
 }
 
 .icon {
-  font-size: 22px;
-  margin-bottom: 10px;
+  font-size: 16px;
   color: white;
+  opacity: 0.9;
 }
 
 .title {
-  font-size: 13px;
-  opacity: 0.8;
+  font-size: 10px;
+  opacity: 0.7;
   color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .value {
-  font-size: 28px;
+  font-size: 18px;
   font-weight: bold;
   color: white;
 }
 
 /* RIGHT */
 .right-wrapper {
-  width: 80%;
+  width: 82%;
   display: flex;
   gap: 10px;
   padding: 10px;
@@ -285,22 +312,32 @@ iframe {
   <!-- LEFT -->
   <div class="left">
 
+    <div class="logo-container">
+      <img src="logo.svg" alt="Logo Agência Marinha">
+    </div>
+
     <div class="card">
-      <div class="icon"><i class="fa-solid fa-clock"></i></div>
       <div class="title">Data/Hora (Brasília)</div>
-      <div class="value" id="clock"></div>
+      <div class="card-body">
+        <div class="icon"><i class="fa-solid fa-clock"></i></div>
+        <div class="value" id="clock"></div>
+      </div>
     </div>
 
     <div class="card">
-      <div class="icon"><i class="fa-solid fa-dollar-sign"></i></div>
       <div class="title">USD → BRL</div>
-      <div class="value" id="dolar"></div>
+      <div class="card-body">
+        <div class="icon"><i class="fa-solid fa-dollar-sign"></i></div>
+        <div class="value" id="dolar"></div>
+      </div>
     </div>
 
     <div class="card">
-      <div class="icon"><i class="fa-solid fa-cloud-sun"></i></div>
       <div class="title">Tempo (Brasília)</div>
-      <div class="value" id="weather"></div>
+      <div class="card-body">
+        <div class="icon"><i class="fa-solid fa-cloud-sun"></i></div>
+        <div class="value" id="weather"></div>
+      </div>
     </div>
 
   </div>
@@ -309,7 +346,7 @@ iframe {
   <div class="right-wrapper">
 
     <div class="feed" id="newsFeed">
-      <div class="feed-title">⚓ Agência Marinha</div>
+      <div class="feed-title">⚓ Notícias</div>
       <div class="news-card" id="newsCard">
         <img class="news-image" id="newsImage" alt="Notícia da Agência Marinha" referrerpolicy="no-referrer" />
         <div class="news-content">
