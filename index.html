@@ -139,10 +139,9 @@ body {
 }
 
 .news-image {
-  width: 70%;
+  width: 50%;
   min-width: 320px;
-  max-width: 800px;
-  object-fit: contain;
+  object-fit: cover;
   background: #071020;
 }
 
@@ -237,6 +236,38 @@ body {
   }
 }
 
+/* MEDIA QUERIES */
+@media (max-width: 1200px) {
+  .container {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .left {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+  .card {
+    flex: 1;
+    min-width: 200px;
+  }
+  .right-wrapper {
+    width: 100%;
+    height: auto;
+  }
+  .news-card {
+    flex-direction: column;
+  }
+  .news-image {
+    width: 100%;
+    height: 300px;
+  }
+  body {
+    overflow: auto;
+  }
+}
+
 /* IFRAME */
 iframe {
   width: 100%;
@@ -256,7 +287,7 @@ iframe {
 
     <div class="card">
       <div class="icon"><i class="fa-solid fa-clock"></i></div>
-      <div class="title">Hora (Brasília)</div>
+      <div class="title">Data/Hora (Brasília)</div>
       <div class="value" id="clock"></div>
     </div>
 
@@ -280,7 +311,7 @@ iframe {
     <div class="feed" id="newsFeed">
       <div class="feed-title">⚓ Agência Marinha</div>
       <div class="news-card" id="newsCard">
-        <img class="news-image" id="newsImage" alt="Notícia da Agência Marinha" />
+        <img class="news-image" id="newsImage" alt="Notícia da Agência Marinha" referrerpolicy="no-referrer" />
         <div class="news-content">
           <div class="news-headline" id="newsHeadline">Carregando notícias...</div>
           <div class="news-subtitle" id="newsSubtitle">Aguarde enquanto buscamos as matérias mais recentes e seus resumos.</div>
@@ -303,8 +334,10 @@ iframe {
 <script>
 // CLOCK
 function updateClock() {
-  document.getElementById('clock').innerText =
-    new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const timeStr = now.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+  document.getElementById('clock').innerHTML = `<span style="display: block; font-size: 0.5em; opacity: 0.8; margin-bottom: 5px;">${dateStr}</span>${timeStr}`;
 }
 setInterval(updateClock, 1000);
 updateClock();
@@ -428,7 +461,7 @@ async function loadMarinhaNews() {
       const src = img.getAttribute('src') || '';
       const href = titleLink.getAttribute('href') || '#';
       return {
-        image: 'https://thingproxy.freeboard.io/fetch/' + encodeURIComponent(src.startsWith('http') ? src : `https://www.agencia.marinha.mil.br${src}`),
+        image: src.startsWith('http') ? src : `https://www.agencia.marinha.mil.br${src}`,
         title: titleLink.textContent.trim(),
         subtitle: subtitle.textContent.trim(),
         href: href.startsWith('http') ? href : `https://www.agencia.marinha.mil.br${href}`,
