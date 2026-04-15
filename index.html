@@ -428,7 +428,7 @@ async function loadMarinhaNews() {
       const src = img.getAttribute('src') || '';
       const href = titleLink.getAttribute('href') || '#';
       return {
-        image: src.startsWith('http') ? src : `https://www.agencia.marinha.mil.br${src}`,
+        image: 'https://thingproxy.freeboard.io/fetch/' + encodeURIComponent(src.startsWith('http') ? src : `https://www.agencia.marinha.mil.br${src}`),
         title: titleLink.textContent.trim(),
         subtitle: subtitle.textContent.trim(),
         href: href.startsWith('http') ? href : `https://www.agencia.marinha.mil.br${href}`,
