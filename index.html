@@ -38,14 +38,26 @@ body {
 
 .logo-container {
   text-align: center;
-  margin-bottom: 20px;
-  padding: 10px;
+  margin-bottom: 12px;
+  padding: 5px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .logo-container img {
   max-width: 100%;
+  max-height: 100px;
   height: auto;
   filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+}
+
+.logo-container strong {
+  display: block;
+  font-size: 0.8rem;
+  line-height: 1.2;
 }
 
 /* CARDS */
@@ -256,8 +268,8 @@ body {
 .ticker-content {
   display: inline-block;
   white-space: nowrap;
-  animation: slideLeft 240s linear infinite;
-  -webkit-animation: slideLeft 240s linear infinite;
+  animation: slideLeft 480s linear infinite;
+  -webkit-animation: slideLeft 480s linear infinite;
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.02em;
@@ -377,7 +389,8 @@ iframe {
   <div class="left">
 
     <div class="logo-container">
-      <img src="brasao.png" alt="Logo Agência Marinha"> <br><strong>Estado-Maior da Armada</strong>
+      <img src="brasao.png" alt="Logo Agência Marinha" />
+      <strong>Estado-Maior da Armada</strong>
     </div>
 
     <div class="card">
@@ -519,7 +532,7 @@ function updateTicker() {
 
   const titles = newsItems.map(item => item.title);
   const repeatedTitles = [...titles, ...titles, ...titles, ...titles, ...titles, ...titles]; // Sextuplica para mais densidade
-  tickerContent.innerText = repeatedTitles.join(' - ');
+  tickerContent.innerHTML = repeatedTitles.join(' <img src="logo.svg" width="20" height="20" style="padding-left: 10px; padding-right: 10px;"/> ');
 }
 
 async function loadNewsSummary(item) {
