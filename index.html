@@ -452,7 +452,7 @@ function renderNewsItem(index) {
 
   newsImage.src = item.image;
   newsImage.alt = `Imagem da notícia: ${item.title}`;
-  newsHeadline.innerHTML = `<a href="${item.href}" target="_blank" rel="noopener noreferrer">${item.title}</a>`;
+  newsHeadline.innerHTML = `${item.title}`;
   newsSubtitle.innerText = item.summary || item.subtitle;
 }
 
@@ -493,7 +493,7 @@ async function loadNewsSummary(item) {
     const doc = parser.parseFromString(html, 'text/html');
     const body = doc.querySelector('article') || doc.querySelector('.field--name-body') || doc.body;
     const text = body.textContent.replace(/\s+/g, ' ').trim();
-    item.summary = text.length > 500 ? text.substring(0, 500) + '...' : text;
+    item.summary = text.length > 600 ? text.substring(0, 600) + '...' : text;
   } catch (error) {
     console.log('Erro ao carregar resumo:', error.message);
     item.summary = item.subtitle; // fallback
