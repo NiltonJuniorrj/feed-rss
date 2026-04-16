@@ -27,7 +27,7 @@ body {
 
 /* LEFT */
 .left {
-  width: 18%;
+  width: 10%;
   background: rgba(17, 34, 64, 0.9);
   padding: 15px;
   display: flex;
@@ -125,7 +125,7 @@ body {
 
 /* RIGHT */
 .right-wrapper {
-  width: 82%;
+  width: 90%;
   display: flex;
   gap: 10px;
   padding: 10px;
@@ -180,9 +180,9 @@ body {
 }
 
 .news-image {
-  width: 50%;
+  width: 55%;
   min-width: 320px;
-  max-width: 520px;
+  max-width: 600px;
   height: auto;
   max-height: 360px;
   object-fit: contain;
@@ -198,6 +198,25 @@ body {
   gap: 12px;
   flex: 1;
   text-align: justify;
+}
+
+.news-qr {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.news-qr img {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+}
+
+.news-source {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  font-style: italic;
 }
 
 .news-headline {
@@ -302,11 +321,11 @@ body {
 /* MEDIA QUERIES */
 @media (max-width: 1200px) {
   .left {
-    width: 25%;
+    width: 20%;
     padding: 10px;
   }
   .right-wrapper {
-    width: 75%;
+    width: 80%;
   }
   .card {
     padding: 8px 10px;
@@ -318,7 +337,7 @@ body {
     font-size: 16px;
   }
   .news-image {
-    width: 45%;
+    width: 50%;
     min-width: 250px;
   }
   .news-headline {
@@ -327,15 +346,19 @@ body {
   .news-subtitle {
     font-size: 0.9rem;
   }
+  .news-qr img {
+    width: 110px;
+    height: 110px;
+  }
 }
 
 @media (max-width: 768px) {
   .left {
-    width: 30%;
+    width: 25%;
     padding: 8px;
   }
   .right-wrapper {
-    width: 70%;
+    width: 75%;
   }
   .card {
     padding: 6px 8px;
@@ -347,7 +370,7 @@ body {
     font-size: 14px;
   }
   .news-image {
-    width: 40%;
+    width: 45%;
     min-width: 200px;
   }
   .news-headline {
@@ -355,6 +378,10 @@ body {
   }
   .news-subtitle {
     font-size: 0.8rem;
+  }
+  .news-qr img {
+    width: 90px;
+    height: 90px;
   }
   .ticker {
     bottom: 8%;
@@ -428,6 +455,10 @@ iframe {
         <div class="news-content">
           <div class="news-headline" id="newsHeadline">Carregando notícias...</div>
           <div class="news-subtitle" id="newsSubtitle">Aguarde enquanto buscamos as matérias mais recentes e seus resumos.</div>
+          <div class="news-qr">
+            <img id="newsQR" alt="QR Code da notícia" />
+          </div>
+          <div class="news-source">Fonte: Agência Marinha</div>
         </div>
       </div>
     </div>
@@ -488,6 +519,7 @@ const newsCard = document.getElementById('newsCard');
 const newsImage = document.getElementById('newsImage');
 const newsHeadline = document.getElementById('newsHeadline');
 const newsSubtitle = document.getElementById('newsSubtitle');
+const newsQR = document.getElementById('newsQR');
 const tickerContent = document.getElementById('tickerContent');
 let newsItems = [];
 let newsIndex = 0;
@@ -500,6 +532,8 @@ function renderNewsItem(index) {
     newsSubtitle.innerText = 'Verifique se a página de notícias está disponível.';
     newsImage.src = '';
     newsImage.alt = 'Sem imagem';
+    newsQR.src = '';
+    newsQR.alt = '';
     return;
   }
 
@@ -507,6 +541,8 @@ function renderNewsItem(index) {
   newsImage.alt = `Imagem da notícia: ${item.title}`;
   newsHeadline.innerHTML = `${item.title}`;
   newsSubtitle.innerText = item.summary || item.subtitle;
+  newsQR.src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(item.href)}`;
+  newsQR.alt = `QR Code para: ${item.title}`;
 }
 
 function startNewsRotation() {
@@ -607,6 +643,8 @@ async function loadMarinhaNews() {
     newsSubtitle.innerText = error.message || 'Recarregue a página para tentar novamente.';
     newsImage.src = '';
     newsImage.alt = 'Sem imagem';
+    newsQR.src = '';
+    newsQR.alt = '';
     tickerContent.innerText = 'Erro ao carregar títulos';
   }
 }
