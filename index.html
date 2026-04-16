@@ -517,7 +517,7 @@ function updateTicker() {
     return;
   }
 
-  const titles = newsItems.slice(0, 10).map(item => item.title);
+  const titles = newsItems.map(item => item.title);
   const repeatedTitles = [...titles, ...titles, ...titles, ...titles, ...titles, ...titles]; // Sextuplica para mais densidade
   tickerContent.innerText = repeatedTitles.join(' - ');
 }
@@ -549,7 +549,7 @@ async function loadMarinhaNews() {
     const html = await response.text();
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
-    const articles = Array.from(doc.querySelectorAll('article.materia'));
+    const articles = Array.from(doc.querySelectorAll('article.materia')).slice(0, 10); // Limitar às primeiras 10 notícias
 
     newsItems = articles.map(article => {
       const img = article.querySelector('img.img-fluid');
@@ -576,8 +576,8 @@ async function loadMarinhaNews() {
     // Atualizar ticker com títulos disponíveis
     updateTicker();
 
-    // Carregar resumos das primeiras 10 notícias (não bloquear se falhar)
-    const summaryPromises = newsItems.slice(0, 10).map(loadNewsSummary);
+    // Carregar resumos das notícias (já limitadas a 10)
+    const summaryPromises = newsItems.map(loadNewsSummary);
     Promise.all(summaryPromises).then(() => {
       // Re-renderizar a notícia atual com resumo se disponível
       renderNewsItem(newsIndex);
